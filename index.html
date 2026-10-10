@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cache Memory Simulator | Computer Architecture Project</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="brand">
+                <div class="brand-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+                        <rect x="9" y="9" width="6" height="6"></rect>
+                        <line x1="9" y1="1" x2="9" y2="4"></line>
+                        <line x1="15" y1="1" x2="15" y2="4"></line>
+                        <line x1="9" y1="20" x2="9" y2="23"></line>
+                        <line x1="15" y1="20" x2="15" y2="23"></line>
+                        <line x1="20" y1="9" x2="23" y2="9"></line>
+                        <line x1="20" y1="15" x2="23" y2="15"></line>
+                        <line x1="1" y1="9" x2="4" y2="9"></line>
+                        <line x1="1" y1="15" x2="4" y2="15"></line>
+                    </svg>
+                </div>
+                <div class="brand-text">
+                    <span class="brand-title">CacheSim</span>
+                    <span class="brand-subtitle">Memory Simulator</span>
+                </div>
+            </div>
+            
+            <ul class="nav-links">
+                <li><a href="#home" class="nav-link active" data-tab="home">Home</a></li>
+                <li><a href="#simulator" class="nav-link" data-tab="simulator">Simulator</a></li>
+                <li><a href="#guide" class="nav-link" data-tab="guide">Guide & Formulas</a></li>
+                <li><a href="#about" class="nav-link" data-tab="about">About Project</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <span class="badge badge-college">College COA Project</span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <!-- HOME TAB -->
+        <section id="home-tab" class="tab-content active">
+            <div class="hero-section">
+                <div class="hero-badge">⚡ Interactive Computer Organization & Architecture Tool</div>
+                <h1 class="hero-title">Visualize & Understand <span class="gradient-text">Cache Memory Operations</span></h1>
+                <p class="hero-subtitle">Simulate Direct Mapping, Set-Associative, and Fully-Associative cache memory behavior in real-time with step-by-step bit address breakdowns, dynamic cache state tables, and visual analytics.</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" onclick="switchTab('simulator')">
+                        <span>Launch Simulator</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </button>
+                    <button class="btn btn-secondary" onclick="switchTab('guide')">
+                        <span>Explore Guide & Formulas</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon icon-cyan">⚙️</div>
+                    <h3>Multiple Mapping Types</h3>
+                    <p>Support for Direct Mapping, Fully Associative, and N-Way Set Associative cache structures with configurable block sizes.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon icon-purple">🔄</div>
+                    <h3>Replacement Policies</h3>
+                    <p>Simulate LRU (Least Recently Used) and FIFO (First-In First-Out) cache block replacement algorithms.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon icon-emerald">🔬</div>
+                    <h3>Bit-Level Breakdown</h3>
+                    <p>Decompose memory addresses into Tag, Index/Set, and Block Offset fields with binary representation.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon icon-amber">📊</div>
+                    <h3>Visual Performance Analytics</h3>
+                    <p>Real-time Hit/Miss statistics, bar charts, and SVG donut charts displaying cache memory performance.</p>
+                </div>
+            </div>
+
+            <!-- Workflow Flowchart Card -->
+            <div class="workflow-card">
+                <div class="card-header">
+                    <h2>🗺️ Simulation Workflow Process</h2>
+                    <p>How the simulator processes memory access requests step by step</p>
+                </div>
+                <div class="workflow-steps">
+                    <div class="step-box">
+                        <div class="step-num">1</div>
+                        <h4>Configure Cache</h4>
+                        <p>Set Cache Size, Block Size, and Mapping Technique</p>
+                    </div>
+                    <div class="step-arrow">➔</div>
+                    <div class="step-box">
+                        <div class="step-num">2</div>
+                        <h4>Input Addresses</h4>
+                        <p>Enter address sequence or choose a pre-made workload</p>
+                    </div>
+                    <div class="step-arrow">➔</div>
+                    <div class="step-box">
+                        <div class="step-num">3</div>
+                        <h4>Address Parsing</h4>
+                        <p>Split address into Tag, Set Index, and Offset bits</p>
+                    </div>
+                    <div class="step-arrow">➔</div>
+                    <div class="step-box">
+                        <div class="step-num">4</div>
+                        <h4>Lookup & Update</h4>
+                        <p>Evaluate Hit/Miss, update Cache Table & Replacement states</p>
+                    </div>
+                    <div class="step-arrow">➔</div>
+                    <div class="step-box">
+                        <div class="step-num">5</div>
+                        <h4>Analytics</h4>
+                        <p>View final Cache Table, trace log, and performance graphs</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SIMULATOR TAB -->
+        <section id="simulator-tab" class="tab-content">
+            <!-- Workflow Tracker Header -->
+            <div class="workflow-tracker">
+                <div class="tracker-item active" id="track-step-1">
+                    <span class="step-badge">1</span>
+                    <span class="step-label">Configuration</span>
+                </div>
+                <div class="tracker-line"></div>
+                <div class="tracker-item" id="track-step-2">
+                    <span class="step-badge">2</span>
+                    <span class="step-label">Addresses</span>
+                </div>
+                <div class="tracker-line"></div>
+                <div class="tracker-item" id="track-step-3">
+                    <span class="step-badge">3</span>
+                    <span class="step-label">Simulation</span>
+                </div>
+                <div class="tracker-line"></div>
+                <div class="tracker-item" id="track-step-4">
+                    <span class="step-badge">4</span>
+                    <span class="step-label">Cache State</span>
+                </div>
+                <div class="tracker-line"></div>
+                <div class="tracker-item" id="track-step-5">
+                    <span class="step-badge">5</span>
+                    <span class="step-label">Analytics</span>
+                </div>
+            </div>
+
+            <div class="simulator-layout">
+                <!-- Left Panel: Configuration & Input -->
+                <div class="sim-sidebar">
+                    <!-- Config Card -->
+                    <div class="card config-card">
+                        <div class="card-header">
+                            <div class="header-title">
+                                <span class="icon">⚙️</span>
+                                <h2>Cache Configuration</h2>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-row">
+                                <div class="form-group flex-2">
+                                    <label for="cache-size">Cache Size</label>
+                                    <input type="number" id="cache-size" value="16" min="1" step="1">
+                                </div>
+                                <div class="form-group flex-1">
+                                    <label for="cache-unit">Unit</label>
+                                    <select id="cache-unit">
+                                        <option value="bytes">Bytes</option>
+                                        <option value="kb">KB</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="block-size">Block Size (Bytes)</label>
+                                <select id="block-size">
+                                    <option value="2">2 Bytes</option>
+                                    <option value="4" selected>4 Bytes</option>
+                                    <option value="8">8 Bytes</option>
+                                    <option value="16">16 Bytes</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="mapping-tech">Mapping Technique</label>
+                                <select id="mapping-tech">
+                                    <option value="direct">Direct Mapping</option>
+                                    <option value="fully">Fully Associative</option>
+                                    <option value="set2">2-Way Set Associative</option>
+                                    <option value="set4">4-Way Set Associative</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group" id="policy-group" style="display: none;">
+                                <label for="replace-policy">Replacement Policy</label>
+                                <select id="replace-policy">
+                                    <option value="lru">LRU (Least Recently Used)</option>
+                                    <option value="fifo">FIFO (First-In First-Out)</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="address-bits">Address Bus Width</label>
+                                <select id="address-bits">
+                                    <option value="8">8-Bit (0 - 255)</option>
+                                    <option value="16" selected>16-Bit (0 - 65,535)</option>
+                                    <option value="32">32-Bit (Standard)</option>
+                                </select>
+                            </div>
+
+                            <!-- Calculated Architecture Parameters Box -->
+                            <div class="arch-summary">
+                                <div class="arch-title">📐 Derived Architecture Specs</div>
+                                <div class="arch-grid">
+                                    <div class="arch-item">
+                                        <span class="label">Total Lines:</span>
+                                        <span class="val" id="spec-total-lines">4</span>
+                                    </div>
+                                    <div class="arch-item">
+                                        <span class="label">Total Sets:</span>
+                                        <span class="val" id="spec-total-sets">4</span>
+                                    </div>
+                                    <div class="arch-item">
+                                        <span class="label">Offset Bits:</span>
+                                        <span class="val" id="spec-offset-bits">2</span>
+                                    </div>
+                                    <div class="arch-item">
+                                        <span class="label">Index Bits:</span>
+                                        <span class="val" id="spec-index-bits">2</span>
+                                    </div>
+                                    <div class="arch-item full-width">
+                                        <span class="label">Tag Bits:</span>
+                                        <span class="val" id="spec-tag-bits">12</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Addresses Card -->
+                    <div class="card addresses-card">
+                        <div class="card-header">
+                            <div class="header-title">
+                                <span class="icon">📝</span>
+                                <h2>Memory Addresses</h2>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <textarea id="addresses" placeholder="Enter memory addresses (comma or space separated, e.g., 10, 20, 30, 10, 40, 20, 50, 10)">10, 20, 30, 10, 40, 20, 50, 10</textarea>
+                            </div>
+                            
+                            <div class="preset-section">
+                                <span class="preset-label">Quick Test Presets:</span>
+                                <div class="preset-buttons">
+                                    <button class="btn-chip" onclick="loadPreset('sample')">Sample Run</button>
+                                    <button class="btn-chip" onclick="loadPreset('temporal')">Temporal Locality</button>
+                                    <button class="btn-chip" onclick="loadPreset('spatial')">Spatial Locality</button>
+                                    <button class="btn-chip" onclick="loadPreset('conflict')">Conflict Thrashing</button>
+                                </div>
+                            </div>
+
+                            <div class="action-buttons">
+                                <button id="run-btn" class="btn btn-primary btn-block">
+                                    <span>▶ Run Simulation</span>
+                                </button>
+                                <button id="step-btn" class="btn btn-accent btn-block">
+                                    <span>⏯ Step-by-Step View</span>
+                                </button>
+                                <button id="reset-btn" class="btn btn-secondary btn-block">
+                                    <span>↺ Reset</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Main Area: Animation, Cache Table, Results, Charts -->
+                <div class="sim-main">
+                    <!-- Step Animation Controller Box (Initially Hidden or Idle) -->
+                    <div class="card animation-card hidden" id="animation-card">
+                        <div class="card-header">
+                            <div class="header-title">
+                                <span class="icon">🎬</span>
+                                <h2>Step-by-Step Execution Visualizer</h2>
+                            </div>
+                            <div class="step-counter">
+                                Step <span id="anim-current-step">0</span> of <span id="anim-total-steps">0</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="anim-controls">
+                                <button id="anim-prev" class="btn btn-icon" title="Previous Step">⏮</button>
+                                <button id="anim-play" class="btn btn-icon btn-primary" title="Play/Pause">▶ Auto Play</button>
+                                <button id="anim-next" class="btn btn-icon" title="Next Step">⏭</button>
+                                
+                                <div class="speed-control">
+                                    <label for="anim-speed">Speed:</label>
+                                    <select id="anim-speed">
+                                        <option value="1500">Slow (1.5s)</option>
+                                        <option value="900" selected>Normal (0.9s)</option>
+                                        <option value="400">Fast (0.4s)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Live Step Address Breakdown Box -->
+                            <div class="live-address-box">
+                                <div class="live-addr-header">
+                                    <span class="live-addr-title">Current Access: Address <strong id="live-addr-dec">0</strong></span>
+                                    <span class="live-addr-bin" id="live-addr-bin">0000 0000 0000 0000</span>
+                                </div>
+                                <div class="bit-breakdown-display" id="live-bit-display">
+                                    <div class="bit-chunk tag-chunk">
+                                        <span class="chunk-label">TAG</span>
+                                        <span class="chunk-val" id="live-tag-val">0</span>
+                                        <span class="chunk-bits" id="live-tag-bits">0000</span>
+                                    </div>
+                                    <div class="bit-chunk set-chunk">
+                                        <span class="chunk-label">INDEX / SET</span>
+                                        <span class="chunk-val" id="live-set-val">0</span>
+                                        <span class="chunk-bits" id="live-set-bits">00</span>
+                                    </div>
+                                    <div class="bit-chunk offset-chunk">
+                                        <span class="chunk-label">OFFSET</span>
+                                        <span class="chunk-val" id="live-offset-val">0</span>
+                                        <span class="chunk-bits" id="live-offset-bits">00</span>
+                                    </div>
+                                </div>
+                                <div class="live-result-banner" id="live-result-banner">
+                                    <span class="status-indicator" id="live-status-badge">READY</span>
+                                    <span class="status-explanation" id="live-status-exp">Click Step or Play to begin execution animation.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Simulation Empty State -->
+                    <div id="empty-state" class="empty-card">
+                        <div class="empty-icon">💡</div>
+                        <h3>Simulation Ready</h3>
+                        <p>Configure your cache settings and click <strong>Run Simulation</strong> or <strong>Step-by-Step View</strong> to start analyzing memory hits, misses, and cache line allocations.</p>
+                    </div>
+
+                    <!-- Results Section (Hidden until simulation runs) -->
+                    <div class="results-wrapper hidden" id="results-wrapper">
+                        <!-- Cache Memory State Table Card -->
+                        <div class="card table-card">
+                            <div class="card-header">
+                                <div class="header-title">
+                                    <span class="icon">🖩</span>
+                                    <h2 id="cache-table-title">Cache Memory State</h2>
+                                </div>
+                                <div class="table-legend">
+                                    <span class="legend-item"><span class="dot valid-dot"></span> Valid Block</span>
+                                    <span class="legend-item"><span class="dot active-dot"></span> Last Updated</span>
+                                </div>
+                            </div>
+                            <div class="card-body table-responsive">
+                                <table id="cache-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Set #</th>
+                                            <th>Line #</th>
+                                            <th>Valid Bit</th>
+                                            <th>Tag</th>
+                                            <th>Cached Data (Block Range)</th>
+                                            <th>Age / LRU State</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="cache-table-body">
+                                        <!-- Populated dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Trace Log Table Card -->
+                        <div class="card table-card">
+                            <div class="card-header">
+                                <div class="header-title">
+                                    <span class="icon">📜</span>
+                                    <h2>Simulation Trace Log</h2>
+                                </div>
+                                <span class="badge" id="trace-count-badge">0 Accesses</span>
+                            </div>
+                            <div class="card-body table-responsive trace-max-height">
+                                <table id="results-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Step</th>
+                                            <th>Address</th>
+                                            <th>Binary Address</th>
+                                            <th>Tag</th>
+                                            <th>Set Index</th>
+                                            <th>Offset</th>
+                                            <th>Result</th>
+                                            <th>Action / Note</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="results-table-body">
+                                        <!-- Populated dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Analytics & Charts Card -->
+                        <div class="card stats-card">
+                            <div class="card-header">
+                                <div class="header-title">
+                                    <span class="icon">📊</span>
+                                    <h2>Performance Visualization</h2>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="stats-grid">
+                                    <!-- Stat Metric Cards -->
+                                    <div class="stat-box-container">
+                                        <div class="stat-box">
+                                            <span class="stat-label">Total Accesses</span>
+                                            <h3 id="stat-total" class="stat-value">0</h3>
+                                        </div>
+                                        <div class="stat-box success">
+                                            <span class="stat-label">Cache Hits</span>
+                                            <h3 id="stat-hits" class="stat-value">0</h3>
+                                        </div>
+                                        <div class="stat-box danger">
+                                            <span class="stat-label">Cache Misses</span>
+                                            <h3 id="stat-misses" class="stat-value">0</h3>
+                                        </div>
+                                        <div class="stat-box primary">
+                                            <span class="stat-label">Hit Ratio</span>
+                                            <h3 id="stat-hit-ratio" class="stat-value">0.0%</h3>
+                                        </div>
+                                        <div class="stat-box secondary">
+                                            <span class="stat-label">Miss Ratio</span>
+                                            <h3 id="stat-miss-ratio" class="stat-value">0.0%</h3>
+                                        </div>
+                                    </div>
+
+                                    <!-- Chart 1: Bar Chart -->
+                                    <div class="chart-container">
+                                        <h4 class="chart-title">Hit vs Miss Distribution</h4>
+                                        <div class="bar-chart">
+                                            <div class="bar-wrapper">
+                                                <div class="bar hit-bar" id="bar-hit" style="height: 0%;">
+                                                    <span class="bar-val" id="bar-hit-val">0</span>
+                                                </div>
+                                                <span class="bar-label">Hits</span>
+                                            </div>
+                                            <div class="bar-wrapper">
+                                                <div class="bar miss-bar" id="bar-miss" style="height: 0%;">
+                                                    <span class="bar-val" id="bar-miss-val">0</span>
+                                                </div>
+                                                <span class="bar-label">Misses</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Chart 2: SVG Pie Chart -->
+                                    <div class="chart-container">
+                                        <h4 class="chart-title">Cache Ratio Chart</h4>
+                                        <div class="pie-chart-wrapper">
+                                            <svg viewBox="0 0 36 36" class="donut-chart">
+                                                <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                                <path class="circle-miss" id="donut-miss-segment" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                                <path class="circle-hit" id="donut-hit-segment" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                                <text x="18" y="19" class="donut-text" id="donut-center-text">0%</text>
+                                                <text x="18" y="24" class="donut-subtext">Hit Rate</text>
+                                            </svg>
+                                            <div class="pie-legend">
+                                                <div class="pie-legend-item"><span class="swatch hit-swatch"></span> Hits (<span id="pie-hit-label">0%</span>)</div>
+                                                <div class="pie-legend-item"><span class="swatch miss-swatch"></span> Misses (<span id="pie-miss-label">0%</span>)</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- GUIDE & FORMULAS TAB -->
+        <section id="guide-tab" class="tab-content">
+            <div class="guide-header">
+                <h2>📚 Cache Memory Concepts & Formulas Guide</h2>
+                <p>Learn how CPU memory addresses are mapped to cache lines and calculate bit lengths interactively.</p>
+            </div>
+
+            <!-- Interactive Bit Calculator Tool -->
+            <div class="card guide-card">
+                <div class="card-header">
+                    <h2>🧮 Interactive Address Bit Field Calculator</h2>
+                </div>
+                <div class="card-body">
+                    <div class="calc-inputs-row">
+                        <div class="form-group">
+                            <label for="guide-addr">Test Memory Address (Decimal):</label>
+                            <input type="number" id="guide-addr" value="42" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="guide-cache-size">Cache Size (Bytes):</label>
+                            <input type="number" id="guide-cache-size" value="16" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label for="guide-block-size">Block Size (Bytes):</label>
+                            <input type="number" id="guide-block-size" value="4" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label for="guide-mapping">Mapping Technique:</label>
+                            <select id="guide-mapping">
+                                <option value="direct">Direct Mapping</option>
+                                <option value="set2">2-Way Set Associative</option>
+                                <option value="fully">Fully Associative</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="calc-result-box" id="guide-calc-result">
+                        <!-- Dynamic calculations shown here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formula Reference Grid -->
+            <div class="guide-grid">
+                <div class="card guide-card">
+                    <div class="card-header">
+                        <h2>🎯 Direct Mapping</h2>
+                    </div>
+                    <div class="card-body">
+                        <p>Each main memory block maps to exactly one specific cache line based on the set index calculation.</p>
+                        <div class="formula-box">
+                            <code>Cache Line Index = (Memory Block Address) mod (Total Cache Lines)</code>
+                        </div>
+                        <ul class="guide-list">
+                            <li><strong>Block Address:</strong> <code>Math.floor(Address / Block Size)</code></li>
+                            <li><strong>Offset Bits:</strong> <code>log₂ (Block Size)</code></li>
+                            <li><strong>Index Bits:</strong> <code>log₂ (Total Lines)</code></li>
+                            <li><strong>Tag Bits:</strong> <code>Address Width - Index Bits - Offset Bits</code></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card guide-card">
+                    <div class="card-header">
+                        <h2>🔀 Set-Associative Mapping</h2>
+                    </div>
+                    <div class="card-body">
+                        <p>Cache is divided into sets, each set containing N lines. A memory block can be placed in any line within its designated set.</p>
+                        <div class="formula-box">
+                            <code>Set Index = (Memory Block Address) mod (Total Sets)</code>
+                        </div>
+                        <ul class="guide-list">
+                            <li><strong>Total Sets:</strong> <code>Total Lines / N</code> (where N is associativity)</li>
+                            <li><strong>Index Bits:</strong> <code>log₂ (Total Sets)</code></li>
+                            <li><strong>Tag Bits:</strong> <code>Address Width - Index Bits - Offset Bits</code></li>
+                            <li><strong>Replacement:</strong> LRU / FIFO algorithms manage line evicted when set is full.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card guide-card">
+                    <div class="card-header">
+                        <h2>🌐 Fully Associative Mapping</h2>
+                    </div>
+                    <div class="card-body">
+                        <p>A memory block can be loaded into any available line in the entire cache memory without set constraints.</p>
+                        <div class="formula-box">
+                            <code>No Set Index Field! (Index Bits = 0)</code>
+                        </div>
+                        <ul class="guide-list">
+                            <li><strong>Sets:</strong> 1 single global set containing all cache lines</li>
+                            <li><strong>Offset Bits:</strong> <code>log₂ (Block Size)</code></li>
+                            <li><strong>Tag Bits:</strong> <code>Address Width - Offset Bits</code></li>
+                            <li><strong>Search:</strong> Requires searching all tags in parallel (content-addressable memory).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card guide-card">
+                    <div class="card-header">
+                        <h2>⚡ Cache Hit vs Cache Miss</h2>
+                    </div>
+                    <div class="card-body">
+                        <ul class="guide-list">
+                            <li><strong class="hit-text">Cache Hit:</strong> Requested address tag is present in the cache and valid bit is 1. CPU reads data instantly.</li>
+                            <li><strong class="miss-text">Compulsory Miss (Cold Miss):</strong> First access to a memory block. Block must be fetched from main memory.</li>
+                            <li><strong class="miss-text">Conflict Miss:</strong> Multiple blocks map to the same set and evict each other (in Direct/Set Associative).</li>
+                            <li><strong class="miss-text">Capacity Miss:</strong> Cache is full and cannot contain all blocks needed during program execution.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT TAB -->
+        <section id="about-tab" class="tab-content">
+            <div class="about-container card">
+                <div class="card-header">
+                    <h2>🎓 College Project Details</h2>
+                </div>
+                <div class="card-body">
+                    <div class="project-meta-grid">
+                        <div class="meta-item">
+                            <span class="meta-label">Project Title:</span>
+                            <span class="meta-val">Interactive Cache Memory Simulator & Performance Visualizer</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Domain / Subject:</span>
+                            <span class="meta-val">Computer Organization & Architecture (COA) / Systems Engineering</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Implementation:</span>
+                            <span class="meta-val">100% Client-Side Pure HTML5, CSS3 Variables, JavaScript ES6</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Backend Required:</span>
+                            <span class="meta-val highlight-green">None (Zero external APIs, pure browser engine)</span>
+                        </div>
+                    </div>
+
+                    <div class="about-section-divider"></div>
+
+                    <h3>📌 Key Educational Objectives</h3>
+                    <ul class="about-checklist">
+                        <li>✅ Demonstrate CPU memory hierarchy & cache line placement mechanisms.</li>
+                        <li>✅ Provide hands-on comparison between Direct, N-Way Set Associative, and Fully Associative cache structures.</li>
+                        <li>✅ Visualize address decomposition (Tag, Set/Index, Offset) for binary address translation.</li>
+                        <li>✅ Calculate hit/miss ratios and generate instant performance analytics graphs.</li>
+                    </ul>
+
+                    <div class="about-section-divider"></div>
+
+                    <div class="tech-stack-row">
+                        <h4>Technologies Used:</h4>
+                        <div class="tech-tags">
+                            <span class="tech-tag">HTML5 Semantic Structure</span>
+                            <span class="tech-tag">CSS3 Grid & Modern Glassmorphism</span>
+                            <span class="tech-tag">JavaScript ES6 Data Structures</span>
+                            <span class="tech-tag">Dynamic SVG Charts</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <p>Cache Memory Simulator &bull; Academic Computer Architecture Project</p>
+            <p class="footer-sub">Designed for clear visualization of cache memory principles using HTML, CSS, and JS.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
