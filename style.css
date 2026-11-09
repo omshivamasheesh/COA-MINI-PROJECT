@@ -58,11 +58,11 @@ body::before {
     width: calc(100% + 20px);
     height: calc(100% + 20px);
 
-    background: url("gemini_generated_video_9b387504.gif") no-repeat center center;
+    background: url("bg.png") no-repeat center center;
     background-size: cover;
 
-    filter: blur(3px);   /* Blur amount */
-    opacity: 0.8;         /* Optional */
+    filter: blur(1px);   /* Blur amount */
+    opacity: 0.9;         /* Optional */
     z-index: -1;
 }
 
